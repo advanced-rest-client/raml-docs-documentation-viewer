@@ -29,21 +29,26 @@ Custom property | Description | Default
 ----------------|-------------|----------
 `--raml-docs-documentation-viewer` | Mixin applied to the element | `{}`
 
-@group UI Elements
+A `markdown-styles` element is responsible for styling parsing content.
+
+@group RAML Elements
 @element raml-docs-documentation-viewer
 @demo demo/index.html
 -->
 <dom-module id="raml-docs-documentation-viewer">
   <template>
+    <style include="markdown-styles"></style>
     <style>
     :host {
       display: block;
       margin: 24px 0;
+
+      @apply(--raml-docs-documentation-viewer);
     }
     </style>
     <div id="preview">
       <marked-element markdown="[[documentation.content]]">
-        <div class="markdown-html markdown-body"></div>
+        <div class="markdown-html"></div>
       </marked-element>
     </div>
   </template>
