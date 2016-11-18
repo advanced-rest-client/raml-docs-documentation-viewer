@@ -45,6 +45,9 @@ A `markdown-styles` element is responsible for styling parsing content.
 
       @apply(--raml-docs-documentation-viewer);
     }
+    :host([hidden]) {
+      display: none !important;
+    }
     </style>
     <div id="preview">
       <marked-element markdown="[[documentation.content]]">
@@ -57,7 +60,74 @@ A `markdown-styles` element is responsible for styling parsing content.
     is: 'raml-docs-documentation-viewer',
     properties: {
       // Represent a single documentation object from RAML's documentation node.
-      documentation: Object
+      documentation: Object,
+      /**
+       * If true then the element will start listen for the
+       * `raml-is-documentation-changed` and `raml-selected-object-changed`
+       * events and sets corresponding properties when needed. It's
+       * a replacement for the Polymer's data biding for apps that are
+       * not Polymer powered.
+       */
+      autoHide: {
+        type: Boolean,
+        value: false,
+        observer: '_autoHideChanged'
+      },
+      // If true then the element will be hidden ui the UI.
+      hidden: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      }
+    },
+
+    attached: function() {
+      this._eventTarget = Polymer.dom(this).host || document;
+      if (this.autoHide) {
+        this._attacheListeners();
+      }
+    },
+
+    _autoHideChanged: function(state) {
+      if (state) {
+        this._attacheListeners();
+      } else {
+        this._detachListeners();
+      }
+    },
+
+    _attacheListeners: function() {
+      if (!this._eventTarget) {
+        return;
+      }
+      this._detachListeners();
+      this.listen(this._eventTarget, 'raml-is-documentation-changed',
+        '_isDocHandler');
+      this.listen(this._eventTarget, 'raml-selected-object-changed',
+        '_selectedChangeHandler');
+    },
+
+    _detachListeners: function() {
+      if (!this._eventTarget) {
+        return;
+      }
+      this.unlisten(this._eventTarget, 'raml-is-documentation-changed',
+        '_isDocHandler');
+      this.unlisten(this._eventTarget, 'raml-selected-object-changed',
+        '_selectedChangeHandler');
+    },
+
+    _isDocHandler: function(e, detail) {
+      var state = detail.state;
+      this.hidden = !state;
+    },
+
+    _selectedChangeHandler: function(e, detail) {
+      if (this.hidden) {
+        this.documentation = undefined;
+        return;
+      }
+      this.documentation = detail.selectedObject;
     }
   });
   </script>
