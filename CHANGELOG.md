@@ -1,3 +1,17 @@
+<a name="1.0.3"></a>
+## [1.0.3](https://github.com/advanced-rest-client/raml-docs-documentation-viewer/compare/1.0.2...v1.0.3) (2016-12-13)
+
+
+### New
+
+* Added media queries to support mobile view ([33d4c70f7494746ed7026bc1b8d73a36dd8ab54c](https://github.com/advanced-rest-client/raml-docs-documentation-viewer/commit/33d4c70f7494746ed7026bc1b8d73a36dd8ab54c))
+
+### Update
+
+* Added new Travis configuration ([6fcf75a2effa1040efd716a10e956fadfd974c6a](https://github.com/advanced-rest-client/raml-docs-documentation-viewer/commit/6fcf75a2effa1040efd716a10e956fadfd974c6a))
+
+
+
 <a name="1.0.2"></a>
 ## 1.0.2 (2016-11-18)
 
